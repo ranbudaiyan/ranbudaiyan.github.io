@@ -1,5 +1,4 @@
-alert("hello"); 
-var pics = [
+ var pics = [
 	"images/kitty_bed.jpg",
 	"images/kitty_basket.jpg", 
 	"images/kitty_laptop.jpg",
@@ -7,7 +6,6 @@ var pics = [
 	"images/kitty_sink.jpg",
 	"images/kitty_wall.jpg"
 ];
-
 
 var btn = document.querySelector("button");
 var img = document.querySelector("img");
