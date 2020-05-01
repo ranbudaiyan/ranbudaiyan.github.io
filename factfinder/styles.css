@@ -1,0 +1,52 @@
+body {
+	background-color:#EDF5E1;
+	color: #14A76C;
+	font-family: Verdana, sans-serif;
+}
+
+#output {
+	width: 600px;
+	height: 100px;
+	border:thin solid blue;
+	padding:10px;
+
+}
+.button {
+
+	color:white;
+	border: none;
+	outline:none;
+	padding:15px 30px;
+	font-size: 1.5em;
+	font-family: Veranda,sans-serif;
+	border-radius: 10px;
+	transition-duration: 0.4s;
+	font-family: Verdana, sans-serif;
+	
+}
+
+.button:hover{
+	color: #80bfff;
+}
+
+#b1{
+	background-color: #8EE4AF; 
+
+}
+#b2{
+	background-color: #5CDB95; 
+
+}
+#b3{
+	background-color: #05386B; 
+	
+}
+#b4{
+	background-color: #379683; 
+
+}
+#b5{
+	background-color: #AFD275; 
+
+}
+
