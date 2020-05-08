@@ -1,0 +1,48 @@
+/*
+#F1E3CB - beige
+#F9B384 - light orange
+#CA5116 - dark orange
+#581C0C - brown
+
+https://colorhunt.co/palette/181665 
+*/ 
+
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+#main {
+	position: relative;
+	margin-left: auto;
+	margin-right: auto;
+	height: 585px;
+	width: 595px;
+	background-color: #F9B384;
+	padding: 10px;
+}
+
+body {
+	background-color: #F1E3CB;
+	font-family: 'Bebas Neue', Verdana cursive;
+
+}
+
+.titletext {
+	text-align: center;
+	color: #581C0C; 
+}
+
+h1.titletext{font-size: 3em;}
+p.titletext{font-size: 2em;}
+
+
+.box {
+	height: 175px;
+	width: 175px;
+	background-color: #F1E3CB;
+	display: inline-block;
+	margin: 10px;
+	vertical-align: top;
+	text-align: center;
+	line-height: 175px; 
+	font-size: 100px; 
+	color: #CA5116;
+}
