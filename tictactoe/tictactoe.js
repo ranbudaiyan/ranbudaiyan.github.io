@@ -6,18 +6,17 @@ let numTurns = 0;
 //take player turn 
 function playerTakeTurn(e) {
 	
-	if (e.innerHTML =="") {
+	if (e.innerHTML ==  "") {
 	e.innerHTML = currentPlayer; 
 	checkGameStatus(); 
 	} else { 
-		console.log("This box is already taken."); 
+		showLightBox("This box is already selected.", "Please try another.");
 		return; 
 	}//else
 
-
 	//game is over
 	if (gameStatus != "") {
-		console.log("game is over, " + gameStatus)
+		showLightBox(gameStatus, "Game Over.");
 	}
 }//playerTakeTurn
 
@@ -29,14 +28,12 @@ function checkGameStatus() {
 	//check for a Win
 	if (checkWin()) {
 		gameStatus = currentPlayer + " wins!"; 
-		console.log("Game Status: " + gameStatus);
 	}//if
 
 
 	//check for a tie
 	if (numTurns == 9) {
 		gameStatus = "Tie Game!";
-		console.log("Game Status: " + gameStatus); 
 	}//if
 
 
@@ -71,13 +68,11 @@ function checkWin() {
 		return true; 
 	}
 	
-	
 	///bottom row
 	if ((cb[7] == "X" || cb[7] == "O") && cb[7] == cb[8] && cb[8] == cb[9]) {
 		return true;
 	}
 	
-	/*
 	//column 1
 	if (cb[1] != "" && cb[1] == cb[4] && cb[4] == cb[7]) {
 		return true; 
@@ -102,13 +97,40 @@ function checkWin() {
 	if (cb[3] != "" && cb[3] == cb[5] && cb[5] == cb[7]) {
 		return true; 
 	}
-
-*/ 
+ 
 }//checkWin
 
 
+// changes the visibility of a certain divID
+function changeVisibility (divID) {
+	var element = document.getElementById(divID); 
+
+	// if element exits, this toggles it's class name between hidden and unhidden
+	if(element) {
+		element.className = (element.className == 'hidden')? 'unhidden' : 'hidden'; 
+	}//if
+} //changeVisibility
 
 
+//dispplay message in lightbox
+function showLightBox(message, message2) {
+
+	//set messages
+	document.getElementById("message").innerHTML = message; 
+	document.getElementById("message2").innerHTML = message2; 
+
+	//show lightbox
+	changeVisibility("lightbox");
+	changeVisibility("boundaryMessage");  
+
+}//showLightBox
+
+
+function continueGame() {
+	changeVisibility("lightbox");
+	changeVisibility("boundaryMessage");  
+
+}//continueGame
 
 
 
