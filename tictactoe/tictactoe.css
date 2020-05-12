@@ -21,7 +21,7 @@ https://colorhunt.co/palette/181665
 
 body {
 	background-color: #F1E3CB;
-	font-family: 'Bebas Neue', Verdana cursive;
+	font-family: 'Bebas Neue', Verdana, cursive;
 }
 
 .titletext {
@@ -29,7 +29,7 @@ body {
 	color: #581C0C; 
 }
 
-h1.titletext{font-size: 3em;}
+h1.titletext{font-size: 4em;}
 p.titletext{font-size: 2em;}
 
 
@@ -44,6 +44,29 @@ p.titletext{font-size: 2em;}
 	line-height: 175px; 
 	font-size: 100px; 
 	color: #CA5116;
+}
+
+#controls {
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height:100%;
+}
+
+#newbutton {
+	position: absolute;
+	top: 45px;
+	font-size: 25px; 
+	font-family:'Bebas Neue', Verdana, cursive;
+	right: 30px;
+	height: 80px;
+	width: 190px;
+	background-color: #F9B384;
+	color: #581C0C;
+	border:thin solid #CA5116 ;
+	border-radius: 4px; 
+
 }
 
 
