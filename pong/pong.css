@@ -47,7 +47,7 @@ Egg Yellows: #ffdc6a
 	font-size: 40px;
 }
 
-.paddle {
+.paddle { 
 	width: 10px;
 	height: 150px; 
 	background-color: #0e0fed;
@@ -70,7 +70,7 @@ Egg Yellows: #ffdc6a
 #ball {
 	position: absolute;
 	left: 50vw;
-	top: 0px;
+	top: 50vh;
 	width: 25px;
 	height: 25px;
 	background-color: red; 
