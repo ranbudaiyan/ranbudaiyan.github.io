@@ -12,6 +12,11 @@ Pinky Ring: #f2b1d8
 Egg Yellows: #ffdc6a
 */
 
+body {
+	font-family: Roboto, sans-serif; 
+
+}
+
 #gameboard {
 	width: 100%;
 	height: 90vh; 
@@ -45,6 +50,7 @@ Egg Yellows: #ffdc6a
 #title {
 	text-align: center;
 	font-size: 40px;
+
 }
 
 .paddle { 
@@ -67,7 +73,7 @@ Egg Yellows: #ffdc6a
 
 }
 
-#ball {
+.ball {
 	position: absolute;
 	left: 50vw;
 	top: 50vh;
@@ -79,14 +85,117 @@ Egg Yellows: #ffdc6a
 }
 
 
+/***** Control Panel *****/ 
+
+#controlpanel {
+	position: absolute;
+	top: 40px;
+	right: 38px;
+	z-index: 1; 
+}
+
+.controls {
+	display: inline-block;
+	padding: 6px;
+	width: 100px;
+	height: 25px;
+	background-color: #94f0f1;
+	color: white;
+	vertical-align: top;
+	text-align: center;
+	line-height: 20px;
+	font-size: 0.8em;
+	border-radius: 7px; 
+
+}
+
+/***** End Control Panel *****/ 
 
 
+/***** Lightbox CSS*****/
 
+.hidden { 
+	display: none;
+ }
 
+ .unhidden {
+ 	display: block;
+ }
 
+ #lightbox {
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0,0,0,0.7); 
+	z-index: 2; 
+}
 
+#x {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	width: 30px;
+	height: 30px;
+	z-index: 2;  
+}
 
+#positionMessage {
+	position: absolute;
+	top: 45px;
+	left: 0px;
+	width: 100%;
 
+}
+
+#boundaryMessage {
+	position: relative;
+	margin-left: auto;
+	margin-right: auto;
+	width: 600px;
+	height: 200px;
+	background-color:rgb(255,255,255,0.9);
+	z-index: 1; 
+	padding : 30px;
+	border: thick solid #CA5116;
+	z-index: 3;
+}
+
+/***** End Lightbox CSS *****/
+
+#slowBallPower {
+	background-color: red; 
+	border: thick solid black; 
+	width: 200px;
+	height: 200px; 
+	position: relative; 
+	z-index: 1;
+	text-align: center; 
+
+}
+
+#bouncyBallPower {
+	background-color: red; 
+	border: thick solid black; 
+	width: 200px;
+	height: 200px; 
+	position: relative; 
+	z-index: 1;
+	text-align: center; 
+
+}
+
+#bigPaddlePower {
+	background-color: red; 
+	border: thick solid black; 
+	width: 200px;
+	height: 200px; 
+	position: relative; 
+	z-index: 1;
+	text-align: center; 
+
+}
 
 
 
