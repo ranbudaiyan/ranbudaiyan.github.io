@@ -14,7 +14,6 @@ Egg Yellows: #ffdc6a
 
 body {
 	font-family: Roboto, sans-serif; 
-
 }
 
 #gameboard {
@@ -30,6 +29,7 @@ body {
 	background-color: #ffdc6a;
 	position: relative;
 	border-bottom: 5px solid black; 
+	color: #0e0fed; 
 }
 
 #header h2 {
@@ -165,35 +165,35 @@ body {
 /***** End Lightbox CSS *****/
 
 #slowBallPower {
-	background-color: red; 
-	border: thick solid black; 
-	width: 200px;
-	height: 200px; 
+	width: 75px;
+	height: 75px; 
 	position: relative; 
 	z-index: 1;
 	text-align: center; 
+	display: none;
+	font-size: 70px; 
 
 }
 
 #bouncyBallPower {
-	background-color: red; 
-	border: thick solid black; 
-	width: 200px;
-	height: 200px; 
+	width: 75px;
+	height: 75px; 
 	position: relative; 
 	z-index: 1;
 	text-align: center; 
+	display: none;
+	font-size: 70px; 
 
 }
 
-#bigPaddlePower {
-	background-color: red; 
-	border: thick solid black; 
-	width: 200px;
-	height: 200px; 
+#bigPaddlePower { 
+	width: 75px;
+	height: 75px; 
 	position: relative; 
 	z-index: 1;
 	text-align: center; 
+	display: none;
+	font-size: 70px; 
 
 }
 

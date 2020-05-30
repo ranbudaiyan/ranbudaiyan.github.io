@@ -5,9 +5,10 @@ const startPositionOfPaddle1 = document.getElementById("paddle1").offsetTop;
 const startPositionOfPaddle2 = document.getElementById("paddle2").offsetTop;
 var positionOfPaddle1 = document.getElementById("paddle1").offsetTop; 
 var positionOfPaddle2 = document.getElementById("paddle2").offsetTop;
-var paddleHeight = document.getElementById("paddle1").offsetHeight;
+var paddleHeightLeft = document.getElementById("paddle1").offsetHeight;
+var paddleHeightRight = document.getElementById("paddle2").offsetHeight;
 const paddleWidth = document.getElementById("paddle1").offsetWidth;
-var newPaddleHeight = 300;
+
 
 var leftPaddleHit = true;
 
@@ -16,7 +17,6 @@ var score2 = 0;
 
 var positionOfPowerupTop; 
 var positionOfPowerupLeft; 
-var powerupHeight = 200; 
 
 var isSlowVisible = false; 
 var isBouncyVisible = false; 
@@ -24,6 +24,7 @@ var isBigVisible = false;
 var isPowerVisible = false;
 
 var startTimer = false;
+var used = false;
 
 const gameboardHeight = document.getElementById("gameboard").offsetHeight;
 const gameboardWidth = document.getElementById("gameboard").offsetWidth; 
@@ -40,6 +41,7 @@ var leftSpeedOfBall = 0;
 
 var bounce = new sound ("bounce2.wav");
 var buzzer = new sound ("buzzer.mp3");
+var topBottomBounce = new sound ("topbottombounce.wav");
 
 //used to control game start/stop
 var controlPlay; 
@@ -73,7 +75,6 @@ document.addEventListener('keydown', function(e) {
 		speedOfPaddle2 = 10; 
 
 	}//if
-
 
 }); 
 
@@ -133,20 +134,48 @@ function startBall () {
 		direction = -1;
 	}//else
 
+
 	topSpeedOfBall = Math.random() * 2 + 3; //3-4
 	leftSpeedOfBall = direction * (Math.random() * 2 + 3); 
+
+	originalTopSpeedOfBall = topSpeedOfBall;
+	originalLeftSpeedOfBall = leftSpeedOfBall;
 
 }//startBall
 
 
 // update locations of paddles and ball
 function show() {
- 	
+
+	if (used == false && bouncyHit == true) {
+		topSpeedOfBall *= 2.3;
+		used = true;
+		leftSpeedOfBall *= 1.2;
+	} //if
+
+	if (used == false && slowHit == true) {
+		topSpeedOfBall /= 2;
+		used = true;
+		leftSpeedOfBall /= 2;
+	} //if
+	
  	//update positions of elements
 	positionOfPaddle1 += speedOfPaddle1; 
 	positionOfPaddle2 += speedOfPaddle2;
 	topPositionOfBall += topSpeedOfBall; 
 	leftPositionOfBall += leftSpeedOfBall; 
+
+	if (bigHit == true && leftPaddleHit == true) {
+		paddleHeightLeft = 350;
+	} else {
+		paddleHeightLeft = document.getElementById("paddle1").offsetHeight;
+	} //if
+
+	if (bigHit == true && leftPaddleHit == false) {
+		paddleHeightRight = 350;
+	} else {
+		paddleHeightRight = document.getElementById("paddle2").offsetHeight;
+	} //if
 
 	//stop left paddle from leaving top of gameboard
 	if (positionOfPaddle1 <= 0) {
@@ -159,19 +188,20 @@ function show() {
 	}//if
 
 	//stop left paddle from leaving the bottom of the game board
-	if (positionOfPaddle1 >= gameboardHeight - paddleHeight) {
-		positionOfPaddle1 = gameboardHeight - paddleHeight; 
+	if (positionOfPaddle1 >= gameboardHeight - paddleHeightLeft) {
+		positionOfPaddle1 = gameboardHeight - paddleHeightLeft; 
 	}
 
 	//stop right paddle from leaving the bottom of the game board
-	if (positionOfPaddle2 >= gameboardHeight - paddleHeight) {
-		positionOfPaddle2 = gameboardHeight - paddleHeight; 
-	}
+	if (positionOfPaddle2 >= gameboardHeight - paddleHeightRight) {
+		positionOfPaddle2 = gameboardHeight - paddleHeightRight; 
+	}//if
 
 
 	//if ball hits top, or bottom of gameboard, change direction
 	if (topPositionOfBall <= 0 || topPositionOfBall >= gameboardHeight - ballHeight) {
 		topSpeedOfBall *= -1; 
+		topBottomBounce.play();
 
 	} //if
 
@@ -179,7 +209,7 @@ function show() {
 	if (leftPositionOfBall <= paddleWidth) {
 
 		//If ball hits paddle change direction
-		if (topPositionOfBall > positionOfPaddle1 && topPositionOfBall < positionOfPaddle1 + paddleHeight) {
+		if (topPositionOfBall > positionOfPaddle1 && topPositionOfBall < positionOfPaddle1 + paddleHeightLeft) {
 			bounce.play();
 			leftSpeedOfBall *= -1; 
 			leftPaddleHit = true;
@@ -189,8 +219,11 @@ function show() {
 			startBall();
 			score2++;
 			document.getElementById("score2").innerHTML = score2; 
+			if (bigHit == true || bouncyHit == true || slowHit == true) {
+				reset();
+				hidePowerups();
+			}//if
 		}//else 
-
 	} //if
 
 	// ball on right edge of gameboard
@@ -198,7 +231,7 @@ function show() {
 
 		// If ball hits paddle change direction 
 		if (topPositionOfBall > positionOfPaddle2 && 
-			topPositionOfBall < positionOfPaddle2 + paddleHeight) {
+			topPositionOfBall < positionOfPaddle2 + paddleHeightRight) {
 			leftSpeedOfBall *= -1; 
 			bounce.play(); 
 			leftPaddleHit = false;
@@ -207,8 +240,12 @@ function show() {
 			startBall(); 
 			score1++; 
 			document.getElementById("score1").innerHTML = score1;
-		}//else 
 
+			if (bigHit == true || bouncyHit == true || slowHit == true) {
+				reset();
+				hidePowerups();
+			} //if
+		}//else 
 	} //if
 	
 	document.getElementById("paddle1").style.top = positionOfPaddle1 + "px"; 
@@ -217,26 +254,29 @@ function show() {
 	document.getElementById("ball").style.left = leftPositionOfBall + "px";
 
 
+	//draws in the powers
 	if (isSlowVisible == true) {
 		document.getElementById("slowBallPower").style.top = y + "px";
 		document.getElementById("slowBallPower").style.left = x + "px";
-		document.getElementById("slowBallPower").className = 'unhidden'; 
+		document.getElementById("slowBallPower").style.display = 'block'; 
 
 	} else if (isBigVisible == true) {
 		document.getElementById("bigPaddlePower").style.top = y + "px";
 		document.getElementById("bigPaddlePower").style.left = x + "px";
-		document.getElementById("bigPaddlePower").className = 'unhidden'; 
+		document.getElementById("bigPaddlePower").style.display = 'block'; 
 		
 	} else if (isBouncyVisible == true) {
 		document.getElementById("bouncyBallPower").style.top = y + "px";
 		document.getElementById("bouncyBallPower").style.left = x + "px";
-		document.getElementById("bouncyBallPower").className = 'unhidden'; 
-
-	}
+		document.getElementById("bouncyBallPower").style.display = 'block'; 
+	} //if
 
 	usePowerups(); 
 
-	console.log(paddleHeight + 200); 
+	//ends the game if a player has 5 points
+	if (score1 == 5 || score2 == 5) {
+		stopGame();
+	} //if
 	
 }//show
 
@@ -246,7 +286,6 @@ function resumeGame() {
 	if(!controlPlay) {
 		controlPlay = window.setInterval(show, 1000/60);
 	}//if
-
 }//resumeGame
 
 
@@ -270,10 +309,10 @@ function startGame() {
 	if(!controlPlay) {
 		controlPlay = window.setInterval(show, 1000/60);
 	}//if
-
 }//startGame
 
 
+//stop and resets the game
 function stopGame() {
 	window.clearInterval(controlPlay);
 	controlPlay = false; 
@@ -291,10 +330,13 @@ function stopGame() {
 	} //else
 
 	showLightBox(message1, message2);
+
+	hidePowerups();
+	reset();
 } //stopGame
 
-
 /**** Lightbox Code ****/ 
+
 
 // changes the visibility of a certain divID
 function changeVisibility (divID) {
@@ -341,10 +383,12 @@ function continueGame() {
 //randomly positions and shows the powerups on the gameboard
 function showPowerups() {
 
-	probabilityOfPower = Math.floor(Math.random() * 3) + 1;  // returns a random integer from 1 to 3
+	timerForPowerInUse = false; 
+
+	probabilityOfPower = Math.floor(Math.random() * 4) + 1;  // returns a random integer from 1 to 3
 	
-	x = Math.floor(Math.random() * (gameboardWidth-300)) + 300;
-	y = Math.floor(Math.random() * (gameboardHeight-300)) + 300;
+	x = Math.floor(Math.random() * 1500) + 250;
+	y = Math.floor(Math.random() * 500) + 250;
 	
 	positionOfPowerupTop = y; 
 	positionOfPowerupLeft = x; 
@@ -352,145 +396,153 @@ function showPowerups() {
 	if (isPowerVisible == false && probabilityOfPower == 1) {	
 		isSlowVisible = true; 
 		isPowerVisible = true;
-		return isSlowVisible;
+	} //if
 
-	} else if (isPowerVisible == false && probabilityOfPower == 2) {
+	if (isPowerVisible == false && probabilityOfPower == 2) {
 		isBouncyVisible = true; 
 		isPowerVisible = true;
-		return isBouncyVisible;
+	} //if
 
-	} else if (isPowerVisible == false && probabilityOfPower == 3) {
+	if (isPowerVisible == false && probabilityOfPower == 3) {
 		isBigVisible = true; 
 		isPowerVisible = true;
-		return isBigVisible; 
-
  	} //if
 
 } //showPowerups
-
 
 //hides the powerups 
 function hidePowerups() {
 
 	document.getElementById("slowBallPower").style.display = 'none';
-	isSlowVisible == false; 
 	
 	document.getElementById("bigPaddlePower").style.display = 'none';
-	isBigVisible == false;
 
 	document.getElementById("bouncyBallPower").style.display = 'none';
-	isBouncyVisible == false;
-
-	beenUsed = false;
-	isPowerVisible = false; 
+	
 	startTimer = false; 
 
+	isBigVisible = false; 
+	isBouncyVisible = false;
+	isSlowVisible = false;
+	
 } //hidePowerups
 
+
+//resets all the powerup varables
 function reset() {
 
 	document.getElementById("ball").style.backgroundColor = "red";
 
-	if (isSlowVisible == true) {
-		topSpeedOfBall = topSpeedOfBall*2;
-		leftSpeedOfBall = leftSpeedOfBall*2;
-	}
+	isBigVisible = false; 
+	isPowerVisible = false;
+	isBouncyVisible = false;
+	isSlowVisible = false;
 
-	if (isBouncyVisible == true) {
-		topSpeedOfBall = topSpeedOfBall1/1.17;
-		leftSpeedOfBall = leftSpeedOfBall/1.1; 
-	}
+	if (slowHit == true || bouncyHit == true) {
+		
+ 		if (topSpeedOfBall > 0) {
+		topSpeedOfBall = Math.random() * 2 + 3; //3-4
+		}//if
 
-	if (isBigVisible == true) {
-		document.getElementById("paddle1").style.height = 150 + "px";
-		paddleHeight = 150; 
+		if (topSpeedOfBall < 0) {
+			topSpeedOfBall = Math.random() * -2 + -3; //3-4	
+		}//if
+
+		if (leftSpeedOfBall > 0) {
+			leftSpeedOfBall = (Math.random() * 2 + 3); 
+		}//if
+
+		if (leftSpeedOfBall < 0) {
+			leftSpeedOfBall = (Math.random() * -2 + -3); 
+		}//if
 
 	} //if
+
+	document.getElementById("paddle1").style.height = 150 + "px"; 
+	document.getElementById("paddle2").style.height = 150 + "px"; 
+
+	slowHit = false;
+	bigHit = false;
+	bouncyHit = false;
 
 } //reset
 
 
-var beenUsed = false; 	
+var timerForPowerInUse = false; 
+var bigHit = false; 
+var bouncyHit = false;
+var slowHit = false;
+
+var clear;
+var clearReset; 
+
 
 //uses the function of eaach powerup if it is hit
 function usePowerups() {
 	
 	//the powerup that slows the ball down
-	if (isSlowVisible == true) {
+	if (isSlowVisible == true && document.getElementById("slowBallPower").style.display == 'block') {
 
 		if (leftPositionOfBall > positionOfPowerupLeft && leftPositionOfBall < positionOfPowerupLeft + 200 
 			&& topPositionOfBall > positionOfPowerupTop && topPositionOfBall < positionOfPowerupTop + 200) {		
-				hit = true; 
 				document.getElementById("ball").style.backgroundColor = "blue"; 
 
-				
-
-				if (beenUsed == false) {
-					topSpeedOfBall = topSpeedOfBall/2;
-					leftSpeedOfBall = leftSpeedOfBall/2; 
-					beenUsed = true; 
-				}//if
-
+				slowHit = true;
 				hidePowerups(); 
-	
+
 		} //if
 	} //if
 
-var resetTimer = false;
-var hit = false;
 	//makes the ball extra bouncy
-	if (isBouncyVisible == true) {
+	if (isBouncyVisible == true && document.getElementById("bouncyBallPower").style.display == 'block') {
 
 		if (leftPositionOfBall > positionOfPowerupLeft && leftPositionOfBall < positionOfPowerupLeft + 200 
 			&& topPositionOfBall > positionOfPowerupTop && topPositionOfBall < positionOfPowerupTop + 200) {		
-				hit = true;
 				document.getElementById("ball").style.backgroundColor = "#ff47dd"; 
 
+				bouncyHit = true;
 
-			if (beenUsed == false) {
-				topSpeedOfBall = topSpeedOfBall*1.17;
-				leftSpeedOfBall = leftSpeedOfBall*1.1; 
-
-				beenUsed = true; 
-			} //if
-
-			hidePowerups(); 
-
+				hidePowerups(); 
 		} //if
- 
-		
 	} //if
 
-	if (isBigVisible == true) {
+	if (isBigVisible == true && document.getElementById("bigPaddlePower").style.display == 'block') {
 
 		if (leftPositionOfBall > positionOfPowerupLeft && leftPositionOfBall < positionOfPowerupLeft + 200 
-			&& topPositionOfBall > positionOfPowerupTop && topPositionOfBall < positionOfPowerupTop + 200) {		
-				hit = true;
-			if (beenUsed == false) {
-				paddleHeight = newPaddleHeight;
-				document.getElementById("paddle1").style.height = paddleHeight + "px"; 
+			&& topPositionOfBall > positionOfPowerupTop && topPositionOfBall < positionOfPowerupTop + 200) {	
 
-				beenUsed = true; 
-			} //if
-			hidePowerups(); 
-	
-		} //if
+				bigHit = true;
+
+				if (leftPaddleHit == true) {
+				document.getElementById("paddle1").style.height = 350 + "px"; 		
+				}
+
+				if (leftPaddleHit == false) {
+					document.getElementById("paddle2").style.height = 350 + "px";
+				}
+			
+				hidePowerups(); 
+		} //if			
 	} //if	
 
+	// if powerups do not get hit 
 	if (startTimer == false && isPowerVisible == true) {
-		setTimeout(hidePowerups, 10000);
-		startTimer = true;
-	}
+		startTimer = true; 
+		clear =	setTimeout(hidePowerups, 12000);
+		clearReset = setTimeout(reset, 12000); 
+	} //if
 
-	if (resetTimer == false && hit == true) {
-		setTimeout(reset, 10000);
-		resetTimer = true;
-		hit = false; 
-	}
-	
+	if (slowHit == true || bigHit == true || bouncyHit == true) {
+		clearTimeout(clear); 
+		clearTimeout(clearReset); 
+	}//if
+
+	if (timerForPowerInUse == false && slowHit == true || bigHit == true || bouncyHit == true) {
+		setTimeout(reset, 14000);
+		timerForPowerInUse = true;
+	}//if
+
 }//usePowerups
-
-
 
 
 
