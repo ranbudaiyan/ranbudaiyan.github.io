@@ -1,0 +1,139 @@
+body {
+	background-color: black;
+}
+
+#gameBoard {
+	border: 1px solid black;
+	display: grid;
+	grid-template-columns: 120px 120px 120px 120px 120px; 
+	grid-template-rows:  120px 120px 120px 120px 120px; 
+	justify-content: center; 
+	width: 600px;
+	height: 600px;
+
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#gameBoard div {
+	background-color: #66f542; 
+	background-repeat: no-repeat;
+
+}
+
+.rider {
+	background-image: url("images/rider.png");
+}
+
+.tree {
+	background-image: url("images/tree.png");
+}
+
+.flag {
+	background-image: url("images/flag.png");
+}
+
+.rock {
+	background-image: url("images/rock.png");
+}
+
+.fenceside {
+	background-image: url("images/fenceside.png");
+}
+
+.fencetop {
+	background-image: url("images/fencetop.png");
+}
+
+.water {
+	background-image: url("images/water.png");
+}
+
+.horseup {
+	background-image: url("images/horseup.png");
+}
+
+.horsedown {
+	background-image: url("images/horsedown.png");
+}
+
+
+.horseleft {
+	background-image: url("images/horseleft.png");
+}
+
+.horseriderup {
+	background-image: url("images/horseriderup.png");
+}
+
+.horseriderdown {
+	background-image: url("images/horseriderdown.png");
+}
+.horseriderleft {
+	background-image: url("images/horseriderleft.png");
+}
+.horseriderright {
+	background-image: url("images/horseriderright.png");
+}
+
+.horsejumpup {
+	background-image: url("images/horsejumpup.png");
+}
+.horsejumpdown {
+	background-image: url("images/horsejumpdown.png");
+}
+.horsejumpleft {
+	background-image: url("images/horsejumpleft.png");
+}
+.horsejumpright {
+	background-image: url("images/horsejumpright.png");
+}
+
+.enemyup {
+	background-image: url("images/enemyup.png");
+}
+
+.enemydown {
+	background-image: url("images/enemydown.png");
+}
+
+.enemyleft {
+	background-image: url("images/enemyleft.png");
+}
+
+.enemyright {
+	background-image: url("images/enemyright.png");
+}
+
+.bridge {
+	background-color: #800020 !important; 
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
