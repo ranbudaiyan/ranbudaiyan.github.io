@@ -11,10 +11,16 @@ const levels =  [
  	"animate", "animate", "animate", "animate", "animate",
  	"water", "bridge", "water", "water", "water", 
  	"", "", "", "fencetop", "", 
- 	"rider", "rock", "", "", "horseup"]
+ 	"rider", "rock", "", "", "horseup"],
 
+ 	//level 2
+ 	["flag", "water", "", "", "", 
+ 	 "fenceside", "water", "", "", "rider",
+ 	 "animate", "bridge animate", "animate", "animate", "animate",
+ 	 "", "water", "", "", "", 
+ 	 "", "water", "horseup", "", ""]
 
- 	 ];
+ 	 ]; //End of levels
 
 const gridBoxes = document.querySelectorAll("#gameBoard div"); 
 const noPassObstacles = ["rock", "tree", "water"]; 
