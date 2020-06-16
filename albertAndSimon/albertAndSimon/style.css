@@ -1,0 +1,253 @@
+body {
+	background-color: black;
+}
+
+#gameBoard {
+	border: 1px solid black;
+	display: grid;
+	grid-template-columns: 120px 120px 120px 120px 120px; 
+	grid-template-rows:  120px 120px 120px 120px 120px; 
+	justify-content: center; 
+	width: 600px;
+	height: 600px;
+
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#gameBoard div {
+	background-color: #66f542; 
+	background-repeat: no-repeat;
+
+}
+
+.rider {
+	background-image: url("images/rider.png");
+}
+
+.tree {
+	background-image: url("images/tree.png");
+}
+
+.flag {
+	background-image: url("images/flag.png");
+}
+
+.rock {
+	background-image: url("images/rock.png");
+}
+
+.fenceside {
+	background-image: url("images/fenceside.png");
+}
+
+.fencetop {
+	background-image: url("images/fencetop.png");
+}
+
+.water {
+	background-image: url("images/water.png");
+}
+
+.horseup {
+	background-image: url("images/horseup.png");
+}
+
+.horsedown {
+	background-image: url("images/horsedown.png");
+}
+
+
+.horseleft {
+	background-image: url("images/horseleft.png");
+}
+
+.horseright {
+	background-image: url("images/horseright.png");
+}
+
+.horseriderup {
+	background-image: url("images/horseriderup.png");
+}
+
+.horseriderdown {
+	background-image: url("images/horseriderdown.png");
+}
+.horseriderleft {
+	background-image: url("images/horseriderleft.png");
+}
+.horseriderright {
+	background-image: url("images/horseriderright.png");
+}
+
+.horsejumpup {
+	background-image: url("images/horsejumpup.png");
+}
+.horsejumpdown {
+	background-image: url("images/horsejumpdown.png");
+}
+.horsejumpleft {
+	background-image: url("images/horsejumpleft.png");
+}
+.horsejumpright {
+	background-image: url("images/horsejumpright.png");
+}
+
+.enemyup {
+	background-image: url("images/enemyup.png");
+}
+
+.enemydown {
+	background-image: url("images/enemydown.png");
+}
+
+.enemyleft {
+	background-image: url("images/enemyleft.png");
+}
+
+.enemyright {
+	background-image: url("images/enemyright.png");
+}
+
+.bridge {
+	background-color: #800020 !important; 
+}
+
+.dust1 {
+	background-image: url("images/dust1.png");
+}
+
+
+.dust2 {
+	background-image: url("images/dust2.png");
+}
+
+
+.dust3 {
+	background-image: url("images/dust3.png");
+}
+
+.enemyrider {
+
+	background-image: url("images/enemyrider.png");
+}
+
+
+
+.bulletuup1 {
+	background-image: url("images/bulletuup1.png");
+}
+
+.bulletuup2 {
+	background-image: url("images/bulletuup2.png");
+}
+
+.bulletdup1 {
+	background-image: url("images/bulletdup1.png");
+}
+
+.bulletdup2 {
+	background-image: url("images/bulletdup2.png");
+}
+
+.bulletrside1 {
+	background-image: url("images/bulletrside1.png");
+}
+
+.bulletrside2 {
+	background-image: url("images/bulletrside2.png");
+}
+
+.bulletlside1 {
+	background-image: url("images/bulletlside1.png");
+}
+
+.bulletlside2 {
+	background-image: url("images/bulletlside2.png");
+}
+
+
+
+.message {
+
+	 /***** From lightbox.css *****/
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0,0,0,0.8); 
+	/***** END lightbox.css code *****/
+	display: none;
+	color: white;
+	font-family: Verdana, sans-serif;
+	font-size: 8em;
+	vertical-align: top;
+	text-align: center;
+	line-height: 100vh;
+}
+
+#settings {
+	height: 20px;
+	width: 20px;
+	position: relative;
+	top: 90px;
+	left: 90px; 
+}
+
+#settingsPage {
+	display: hidden;
+
+}
+
+.cutscene {
+	 /***** From lightbox.css *****/
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 80%;
+	background-color: rgba(0,0,0,0.8); 
+	/***** END lightbox.css code *****/
+	display: none;
+	vertical-align: top;
+}
+
+
+#para {
+	position: relative;
+	top: 200px;
+	text-align: center;
+	font-family: Verdana, sans-serif;
+	font-size: 2em;
+	font-style: italic;
+	color: white;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Albert and Simon's Adventure</title>
+    
+    <link rel="stylesheet" href="style.css">  
+  
+    
+  </head>
+  
+  <body>
+    <div id="gameBoard"> 
+     
+      <div onclick="pauseGame()"></div> 
+      <div onclick="resumeGame()"></div>
+      <div></div>
+      <div></div>
+      <div></div>
+
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div><img src="images/settings.png" alt = "settings icon" id="settings" onclick="toggleSettingsPage()"></div>
+
+    </div> 
+
+    
+    <div class="cutscene" id="cutscene1">
+      <p id="para">Albert and Simon were the best of friends...</p>
+    </div>
+
+    <div class="cutscene" id="cutscene2">
+      <p id="para">One day however, they became lost and were attacked!</p>
+    </div>
+
+    <div class="message" id="lose">You Lose</div>
+    <div class="message" id="levelup">Next level...</div>
+    <div class="message" id="win">YOU WIN!</div>
+    
+    <div class="message" id="settingsPage">
+      <button onclick="pauseGame()">PAUSE</button>
+      <button onclick="resumeGame()">RESUME</button>
+    </div>
+
+ 
+    <script src="game.js"></script>
+  </body>
+  
+</html>      
