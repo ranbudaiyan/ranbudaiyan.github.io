@@ -40,14 +40,46 @@
       <div></div>
       <div></div>
       <div></div>
-      <div></div>
-      
+      <div><img src="images/settings.png" alt = "settings icon" id="settings" onclick="toggleSettingsPage()"></div>
 
     </div> 
 
 
-    <div class="message" id="lose">You Lose</div>
+
+    <div class="story" id="start">
+      <p id="title">Welcome to Albert and Simon's <br> Adventure!</p>
+      <h3 id="subheading">Before you begin, this is their story....</h3>
+    </div>
+
+    
+    <div class="cutscene" id="cutscene1">
+      <p>Albert and Simon have always <br> been the best of friends</p>
+    </div>
+
+    <div class="cutscene" id="cutscene2">
+      <p>One day they became lost deep in the <br> woods and were attacked!</p>
+    </div>
+
+    <div class="winMessage" id="win"> 
+      <p>Congratulations on rescuing Simon! <br> Horse and Rider are together once again!</p>
+      <button id="again">Play Again</button>
+    </div>
+
+    <div class="cutscene" id="practice"> 
+      <p> Help Albert rescue Simon! <br> Use the arrow keys to move and click the space bar to activate your sentry stunner! <br> Your objective is to
+      get Simon in each level then proceed to the flag. <br> You can jump over fences when you have Simon with you but you cannot use your stunner. <br> <br> Click start when you are ready to play.</p>
+      <button id="startGame">Start</button>
+    </div>
+
+    <div class="message" id="lose">You Lose<button id='playAgain'>Play Again</button></div>
     <div class="message" id="levelup">Next level...</div>
+    
+    <div class="message" id="settingsPage">
+      <h6 id="one">Albert and Simon's <br> Adventure</h6>
+      <button onclick="pauseGame()" id="pause">PAUSE</button>
+      <button onclick="resumeGame()" id="resume">RESUME</button>
+      <img src="images/x.png" alt = "x icon" id="x">
+    </div>
 
  
     <script src="game.js"></script>

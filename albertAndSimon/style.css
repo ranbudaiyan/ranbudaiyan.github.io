@@ -18,7 +18,26 @@ body {
 #gameBoard div {
 	background-color: #66f542; 
 	background-repeat: no-repeat;
+}
 
+.story {
+    position:fixed;
+    height:100%;
+    width:100%;
+    color: white; 
+    display: block;
+    top: 50px; 
+ 
+}
+
+#subheading {
+	color: red;
+	text-align: center;
+	font-style: italic;
+}
+
+#startGame {
+	display: none; 
 }
 
 .rider {
@@ -111,29 +130,272 @@ body {
 
 .bridge {
 	background-color: #800020 !important; 
-
 }
 
-.message {
+.dust1 {
+	background-image: url("images/dust1.png");
+}
 
-	 /***** From lightbox.css *****/
+
+.dust2 {
+	background-image: url("images/dust2.png");
+}
+
+
+.dust3 {
+	background-image: url("images/dust3.png");
+}
+
+.enemyrider {
+
+	background-image: url("images/enemyrider.png");
+}
+
+
+
+.bulletuup1 {
+	background-image: url("images/bulletuup1.png");
+}
+
+.bulletuup2 {
+	background-image: url("images/bulletuup2.png");
+}
+
+.bulletdup1 {
+	background-image: url("images/bulletdup1.png");
+}
+
+.bulletdup2 {
+	background-image: url("images/bulletdup2.png");
+}
+
+.bulletrside1 {
+	background-image: url("images/bulletrside1.png");
+}
+
+.bulletrside2 {
+	background-image: url("images/bulletrside2.png");
+}
+
+.bulletlside1 {
+	background-image: url("images/bulletlside1.png");
+}
+
+.bulletlside2 {
+	background-image: url("images/bulletlside2.png");
+}
+
+.enemyleftstun {
+	background-image: url("images/enemyleftstun.png");
+}
+
+.enemyrightstun {
+	background-image: url("images/enemyrightstun.png");
+}
+
+
+
+
+.message {
 	position: fixed;
-	top: 0px;
+	 /***** From lightbox.css *****/
 	left: 0px;
+	top: 0px; 
 	width: 100%;
 	height: 100%;
 	background-color: rgba(0,0,0,0.8); 
 	/***** END lightbox.css code *****/
 	display: none;
 	color: white;
-	font-family: Verdana, sans-serif;
-	font-size: 8em;
+	font-family: Georgia,serif;
+	font-size: 5em;
 	vertical-align: top;
 	text-align: center;
-	line-height: 100vh;
+	margin-right: auto;
+	margin-left: auto; 
+}
+
+.winMessage {
+	position: fixed;
+	 /***** From lightbox.css *****/
+	left: 0px;
+	top: 0px; 
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0,0,0,0.8); 
+	/***** END lightbox.css code *****/
+	display: none;
+	color: white;
+	font-family: Georgia,serif;
+	font-size: 2em;
+	vertical-align: top;
+	text-align: center;
+	margin-right: auto;
+	margin-left: auto; 
+}
+
+#playAgain {
+	position: relative;
+	border-radius: 5px; 
+	color: red;
+	height: 100px;
+	width: 200px;
+	top: 250px;
+	font-size: 40px;
+	font-weight: 700; 
+	font-family: Georgia, serif;
+	border: solid 5px red;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 30px;
+	margin-bottom: 20px;  
+
+}
+
+#settings {
+	height: 20px;
+	width: 20px;
+	position: relative;
+	top: 90px;
+	left: 90px; 
+}
+
+#settingsPage {
+	display: none;
+
+}
+
+.cutscene {
+	position: relative;
+	text-align: center;
+	font-family: Georgia, serif;
+	font-size: 1.7em;
+	color: white;
+	font-style: italic; 
+	margin-left: auto;
+	margin-right: auto; 
+	width: 100%;
+	height: 100%;
+	display: none;
+	vertical-align: top;
+
+
+}
+#x {
+	position: absolute;
+	top: 570px;
+	left: 66.4vw; 
+	z-index: 3; 
+	background-color: grey;
 }
 
 
+#title {
+	position: relative;
+	text-align: center;
+	font-family: Georgia, serif;
+	font-size: 2.5em;
+	font-style: italic;
+	color: #000080;
+	top: 45px; 
+
+}
+
+#title {
+	position: relative;
+	text-align: center;
+	font-family: Georgia, serif;
+	font-size: 2.5em;
+	font-style: italic;
+	color: #000080;
+	top: 45px; 
+
+}
+
+
+#startGame {
+	position: relative;
+	border-radius: 5px; 
+	color: green;
+	height: 75px;
+	margin-right: auto;
+	margin-left: auto;
+	font-size: 34px;
+	font-weight: 700; 
+	font-family: Georgia, serif;
+	border: solid 3px green;
+	display: block;
+}
+
+#pause {
+	position: relative;
+	border-radius: 5px; 
+	color: red;
+	height: 66px;
+	width: 170px;
+	top: 200px;
+	font-size: 37px;
+	font-weight: 700; 
+	font-family: Georgia, serif;
+	border: solid 3px red;
+	display: block;
+	margin-left: auto;
+	margin-right: auto; 
+	margin-top: 20px;
+	margin-bottom: 20px; 
+
+}
+
+#one {
+	z-index: 2;
+	position: relative;
+	color: white;
+	font-family: Georgia, serif;
+	margin-left: auto;
+	margin-right: auto; 
+	display: block;
+	margin-top: 20px;
+	margin-bottom: 20px; 
+
+
+}
+
+#resume {
+	position: relative;
+	border-radius: 5px; 
+	color: green;
+	height: 65px;
+	width: 170px;
+	top: 200px;
+	font-size: 37px;
+	font-weight: 700; 
+	font-family: Georgia, serif;
+	border: solid 3px green;
+	display: block;
+	margin-left: auto;
+	margin-right: auto; 
+	margin-top: 20px;
+	margin-bottom: 20px; 
+}
+
+#again {
+	position: relative;
+	border-radius: 5px; 
+	color: green;
+	height: 100px;
+	width: 200px;
+	top: 250px;
+	font-size: 40px;
+	font-weight: 700; 
+	font-family: Georgia, serif;
+	border: solid 5px green;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 30px;
+	margin-bottom: 20px;  
+}
 
 
 

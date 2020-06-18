@@ -1,76 +1,535 @@
 const levels =  [	
 	//level 0
+	["rock", "rock", "rock", "", "",  
+ 	"", "", "", "", "",
+ 	"", "r", "", "", "t",
+ 	"", "rider", "", "", "", 
+ 	"", "", "tree", "tree", "tree" ], 
+
+	["tree", "tree", "tree", "tree", "tree",  
+ 	"rock", "rock", "", "", "",
+ 	"tree", "tree", "", "rock", "rock",
+ 	"horseriderright", "", "", "tree", "rock", 
+ 	"", "tree", "", "tree", "tree" ], 
+
+ 	["rock", "", "", "", "enemyleft",  
+ 	"", "", "", "", "enemyleft",
+ 	"horseriderright", "", "", "", "enemyleft",
+ 	"", "", "", "enemyleft", "", 
+ 	"", "", "tree", "tree", "tree" ],
+
+ 	//level 1
 	["flag", "rock", "", "", "",  
  	"fenceside", "rock", "", "", "rider",
  	"", "tree", "animate", "animate", "animate",
  	"", "water", "", "", "", 
  	"", "fencetop", "", "horseup", "" ], 
 
- 	//level 1
+ 	//level 2
  	["tree", "tree", "flag", "tree", "tree",
  	"animate", "animate", "animate", "animate", "animate",
  	"water", "bridge", "water", "water", "water", 
  	"", "", "", "fencetop", "", 
  	"rider", "rock", "", "", "horseup"],
 
- 	//level 2
- 	["flag", "water", "", "", "", 
- 	 "fenceside", "water", "", "", "rider",
- 	 "animate", "bridge animate", "animate", "animate", "animate",
- 	 "", "water", "", "", "", 
- 	 "", "water", "horseup", "", ""]
+ 	//level 3
+ 	["flag", "", "fencetop", "", "", 
+ 	 "tree", "rock", "animate", "animate", "animate",
+ 	 "tree", "", "", "", "",
+ 	 "", "", "rock", "tree", "", 
+ 	 "tree", "", "rider", "fencetop", "horseup"],
+ 	 
+ 	//level 4
+ 	["horseright", "", "tree", "tree", "rider",
+ 	"rock", "", "rock", "", "",
+ 	"animate", "animate", "animate", "animate", "animate", 
+ 	"rock", "tree", "rock", "fenceside", "tree", 
+ 	"flag", "fencetop", "", "", ""],
 
+	//level 5
+ 	["rider", "tree", "horsedown", "rock", "flag", 
+ 	 "", "rock", "", "tree", "fenceside",
+ 	 "", "rock", "animate", "animate", "animate",
+ 	 "", "water", "", "tree", "", 
+ 	 "", "", "", "", ""]
  	 ]; //End of levels
 
 const gridBoxes = document.querySelectorAll("#gameBoard div"); 
 const noPassObstacles = ["rock", "tree", "water"]; 
 
+var cut2; // is saved to the timeout for cutscene2
+var clearHorses; //is saved to the timeout for exitHorses
 
 var currentLevel = 0; //starting level
 var riderOn = false; //is the rider on
 var currentLocationOfHorse = 0;
 var currentAnimation; // allows 1 animation per level
 var widthOfBoard = 5;
+var pause = false; //determines if pause is in effect
+var cutSceneDone = false; 
+var time = 5700; // time until cutscene starts
+var gameStart = false; 
+var cut1; // set timeout for cutsceene 1
+var b; // setTimeout for 
+var enemySpeed = 750; // enemy speed of animation
 
-
-//start game
+//start game and cutscenes
 window.addEventListener("load", function() {
-	loadLevel(); 
+document.getElementById("settings").style.display = "none";
+
+loadLevel(); 
+
+setTimeout (function() {
+document.getElementById("start").style.display = "none";
+
+currentLevel++; 
+loadLevel(); 
+}, 5500);
+
+
+cut1 = setTimeout(cutScene1, time);
+
+cut2 = setTimeout(cutscene2, time + 7000);
+
+setTimeout(function() {
+	clearTimeout(cut2); 
+	clearTimeout(cut1); 
+	clearInterval(clearHorses);
+},  time + 19000);
+
+setTimeout(function() {
+	practice();
+}, time + 19200); 
+
 }); 
 
-//move horse
-document.addEventListener("keydown", function(e) {
+var directionHorse; 
 
+
+
+//move horse
+document.addEventListener("keydown", function (e) {
+	if(e.keyCode == 32 && riderOn == false && cutSceneDone == true) {
+		shoot(gridBoxes, directionHorse, currentLocationOfHorse);
+		return; 
+	} //if
+
+	if (bulletMotion = false) {
+		clearInterval(bullet);
+	}//if
+
+	 if (cutSceneDone == true && lost == false) {
 	switch (e.keyCode) {
 		case 37: //left arrow
 			if (currentLocationOfHorse % widthOfBoard !== 0) {
-				tryToMove("left"); 
+				tryToMove("left");
+				directionHorse = "left"; 
 			} //if 
 			break;
 		case 38: // up arrow
 			if (currentLocationOfHorse - widthOfBoard >= 0) {
 				tryToMove("up");
-			}
+				directionHorse = "up"; 
+			} //if
 			break; 
 		case 39: // right arrow
 			if (currentLocationOfHorse % widthOfBoard < widthOfBoard - 1) {
 				tryToMove("right"); 
+				directionHorse = "right"; 
 			} //if
 			break;
 		case 40: // down arrow
 			if (currentLocationOfHorse + widthOfBoard < widthOfBoard * widthOfBoard) {
 				tryToMove("down");
+				directionHorse = "down"; 
 			} //if
 			break;
 	} //switch
+} //add.eventlistener
 
 }); //key event listener
+
+
+var bullet; 
+var bulletMotion = false;
+function shoot(boxes, direction, start) {
+
+	let nextC; // the class the bullet is travelling into
+	let startOrig = start; //original value of start
+
+	console.log("IN shoot: " + direction + " " + start); 
+
+	if (direction == "left") {
+			
+				bullet = setInterval (function() {
+ 				
+				if (start > 1) {
+ 				nextC = gridBoxes[start-1].className; 
+ 				}
+
+ 				if (start == locationEnemy) {
+ 					stunEnemy();
+ 					boxes[start].classList.remove('bulletrside2');
+ 					return;
+ 				}//if	
+
+ 				if (noPassObstacles.includes(nextC) || nextC == 'fencetop' || nextC == 'fenceside'|| nextC == 'water' || nextC=="rider" || nextC=='flag' || nextC =='bridge') {
+ 					if (start == startOrig) { return;}
+ 					boxes[start].classList.remove('bulletrside2');
+ 					bulletMotion = false;
+ 					return;
+ 				} //if
+					if (start% widthOfBoard !== 0) {
+					boxes[start-1].className = 'bulletrside2'; 
+					start--; 
+					bulletMotion = true;
+				} else {
+					boxes[start].classList.remove("bulletrside2");
+					return;
+					bulletMotion = false;
+				} //if
+					for (i = 0; i < boxes.length; i++) {
+						if(i != start) {
+							boxes[i].classList.remove("bulletrside2");
+						}//if
+
+					}//for
+
+				}, 75); //setInterval
+	} //if
+
+	if (direction == "right") {
+			
+				bullet = setInterval (function() {
+ 				
+				if (start < 23) {
+ 				nextC = gridBoxes[start+1].className; 	
+ 				} //if
+
+ 				if (start == locationEnemy) {
+ 					stunEnemy();
+ 					boxes[start].classList.remove("bulletlside2");
+
+ 					return;
+ 				}//if
+
+ 				if (noPassObstacles.includes(nextC) || nextC == 'fencetop' || nextC == 'fenceside'|| nextC == 'water' || nextC=="rider" || nextC=='flag' || nextC =='bridge') {
+ 					if (start == startOrig) { return;}
+ 					boxes[start].classList.remove("bulletlside2");
+ 					bulletMotion = false; 
+ 					return;
+ 				} //if
+					if (start % widthOfBoard < widthOfBoard - 1) {
+					boxes[start+1].className = 'bulletlside2'; 
+					start++; 
+					bulletMotion = true;
+				} else {
+					boxes[start].classList.remove("bulletlside2");
+					bulletMotion = false;
+					return;
+				} //if
+					for (i = 0; i < boxes.length; i++) {
+						if(i != start) {
+							boxes[i].classList.remove("bulletlside2");
+						}//if
+
+					}//for
+
+				}, 75); //setInterval	
+	} //if
+
+
+	if (direction == "up") {
+			
+				bullet = setInterval (function() {
+ 				
+				if (start > 5) {
+ 				nextC = gridBoxes[start-5].className; 	
+ 				} //if
+
+ 				if (start == locationEnemy && stun==false) {
+ 					stunEnemy();
+ 					boxes[start].classList.remove("bulletuup2");
+ 					return;
+ 				}//if
+
+ 				if (noPassObstacles.includes(nextC) || nextC == 'fencetop' || nextC == 'fenceside' || nextC == 'water' || nextC=='flag' || nextC =='bridge') {
+ 					if (start == startOrig) { return;}
+ 					boxes[start].classList.remove("bulletuup2");
+ 					//bulletMotion = false; 
+ 					return;
+ 				} //if
+
+ 				if (nextC == 'rider') {
+ 					lose(); 
+ 				}
+					if (start - widthOfBoard >= 0) {
+					boxes[start-5].className = 'bulletuup2'; 
+					start = start-5; 
+					bulletMotion = true;
+				} else {
+					boxes[start].classList.remove("bulletuup2");
+					bulletMotion = false;
+					return;
+				} //if
+
+					for (i = 0; i < boxes.length; i++) {
+						if(i != start) {
+							boxes[i].classList.remove("bulletuup2");
+						}//if
+
+					}//for
+
+				}, 75); //setInterval		
+	} //if
+
+
+	if (direction == "down") {
+			
+				bullet = setInterval (function() {
+ 				
+				if (start < 19) {
+ 				nextC = gridBoxes[start+5].className; 	
+ 				} //if
+
+ 				if (start == locationEnemy) {
+ 					stunEnemy();
+ 					boxes[start].classList.remove("bulletdup2");
+ 					return;
+ 				}//if
+
+ 				if (noPassObstacles.includes(nextC) || nextC == 'fencetop' || nextC == 'fenceside'|| nextC == 'water' || nextC=="rider" || nextC=='flag') {
+ 					if (start == startOrig) { return;}
+ 					boxes[start].classList.remove("bulletdup2");
+ 					bulletMotion = false; 
+ 					return;
+ 				} //if
+					if (start + widthOfBoard < widthOfBoard * widthOfBoard) {
+					boxes[start+5].className = 'bulletdup2'; 
+					start = start+5; 
+					bulletMotion = true;
+				} else {
+					boxes[start].classList.remove("bulletdup2");
+					bulletMotion = false;
+					return;
+				} //if
+
+					for (i = 0; i < boxes.length; i++) {
+						if(i != start) {
+							boxes[i].classList.remove("bulletdup2");
+						}//if
+
+					}//for
+
+				}, 75); //setInterval		
+	} //if
+
+}// shoot
+
+
+var stun = false; //if horse is stunned or not
+
+function stunEnemy() {
+	stun = true;
+	return; 
+} //stunEnemy
+
+
+
+function cutScene1() {
+
+	setTimeout(function() {
+		gridBoxes[16].className = 'horseriderright';
+		gridBoxes[15].className = ""; 
+	}, 800);
+
+	setTimeout(function() {
+		gridBoxes[17].className = 'horseriderright';
+		gridBoxes[16].className = ""; 
+	}, 1400);  
+
+	setTimeout(function() {
+		gridBoxes[12].className = 'horseriderup';
+		gridBoxes[17].className = ""; 
+	}, 2000); 
+
+	setTimeout(function() {
+		gridBoxes[7].className = 'horseriderup';
+		gridBoxes[12].className = ""; 
+	}, 2600); 
+
+	setTimeout(function() {
+		gridBoxes[8].className = 'horseriderright';
+		gridBoxes[7].className = ""; 
+	}, 3200); 
+
+	setTimeout(function() {
+		gridBoxes[9].className = 'horseriderright';
+		gridBoxes[8].className = ""; 
+	}, 3800); 
+
+	setTimeout(function() {
+		gridBoxes[9].className = ""; 
+	}, 4400); 
+	
+	setTimeout(function() {
+		document.getElementById("cutscene1").style.display = 'block';		
+		loadLevel(); 
+	}, 4800); 
+
+	currentLevel++;
+} //cutScene1 
+
+
+function cutscene2() {
+	var clearDust; 
+	var x = 4; 
+	var y = 9;
+	var z = 14;
+	var dust = 1;
+	var timer = 0; 
+
+	document.getElementById("cutscene1").style.display = 'none';
+	document.getElementById("cutscene2").style.display = 'block';
+
+	setTimeout(function() {
+		setInterval(function() {
+			document.getElementById("cutscene2").style.display = 'none';
+
+			if ( x > 1) {
+				gridBoxes[x].className = 'enemyleft';
+				gridBoxes[x+1].className = ""; 
+				x--;
+			} //if 
+
+		}, 500); 
+	}, 2000); 
+
+	setTimeout(function() {
+		gridBoxes[9].className = 'enemyleft';
+	}, 2300);
+
+	setTimeout(function() {
+		gridBoxes[8].className = 'enemyleft';
+		gridBoxes[9].className = ""; 
+	}, 2800);  
+
+	setTimeout(function() {
+		gridBoxes[13].className = 'enemydown';
+		gridBoxes[8].className = ""; 
+	}, 4100); 
+
+	setTimeout(function() {
+		gridBoxes[12].className = 'enemyleft';
+		gridBoxes[13].className = ""; 
+	}, 4600); 
+
+	setTimeout(function() {
+		setInterval(function() {
+			if ( z > 9) {
+				gridBoxes[z].className = 'enemyleft';
+				gridBoxes[z+1].className = ""; 
+				z--;
+			} //if
+		}, 500); 
+	}, 2350); 
+
+
+	setTimeout(function () {
+	clearDust =	setInterval(function() {
+		gridBoxes[10].className = 'dust' + dust;	
+		
+		if (dust < 3 && timer < 28) {
+			dust++; 
+			timer++; 
+		} //if
+
+		if (dust == 3) {
+			dust = 1;
+		} //if
+
+		}, 90); 
+	}, 4900); 
+
+	clearHorses = setTimeout(function() {
+		exitHorse(); 
+	}, 7000);
+
+	setTimeout(function() {
+		clearInterval(clearDust);
+		gridBoxes[10].className = "horseright"; 
+	}, 10000);
+
+} //cutScene2
+
+
+function practice() {
+	document.getElementById("practice").style.display = 'block';
+	
+	document.getElementById("startGame").style.display = 'block'; 
+	
+
+	currentLevel++; 
+
+	document.getElementById("startGame").onclick = function() {
+	document.getElementById("startGame").style.display = "none";
+	document.getElementById("practice").style.display = 'none';
+	
+	loadLevel(); 
+	document.getElementById("settings").style.display = 'block';
+
+	}; //practise
+} //practice
+
+function exitHorse () {
+var w = 1;
+var x = 10; 
+var y = 12; 
+var z = 17; 
+
+	setTimeout(function() {
+		clearHorses = setInterval(function() {
+
+			if (w==4) {gridBoxes[w].className = "";}	
+			if (x==14) {gridBoxes[x].className = "";}
+			if (y==14) {gridBoxes[y].className = "";}	
+			if (z==19) {gridBoxes[z].className = "";}		
+			
+			if (w<4) {
+			gridBoxes[w+1].className = 'enemyright';
+			gridBoxes[w].className = ""; 
+			w++;
+			} //if
+
+			if (x<14) {
+			gridBoxes[x+1].className = 'enemyrider';
+			gridBoxes[x].className = ""; 
+			x++;
+			} //if
+
+			if (y<14) {
+			gridBoxes[y+1].className = 'enemyright';
+			gridBoxes[y].className = ""; 
+			y++;
+			} //if
+			
+			if (z<19) {
+			gridBoxes[z+1].className = 'enemyright';
+			gridBoxes[z].className = ""; 
+			z++;
+			} //if
+							
+		}, 500); 
+
+	}, 500); 
+
+}//exit horse
 
 
 //try to move horse
 function tryToMove(direction) {
 	
-	//lovation before move
+	//location before move
 	let oldLocation = currentLocationOfHorse;
 
 	//class of location before move
@@ -159,7 +618,7 @@ function tryToMove(direction) {
 			return;
 
 		}//if horse has rider
-
+		
 	}//if class has fence
 
 	// if there is a rider in the next space, add rider
@@ -189,7 +648,7 @@ function tryToMove(direction) {
 
 	// if the new space is an enemy, end game
 	if (nextClass.includes("enemy")) {
-		document.getElementById("lose").style.display = "block";
+		lose(); 
 		return;
 		//end game function
 	} //if
@@ -198,28 +657,86 @@ function tryToMove(direction) {
 	levelUp(nextClass);
 
 } //try to move
+var lost = false;
+
+function lose() {
+	lost = true;
+	document.getElementById("lose").style.display = "block";
+	pauseGame(); 
+	document.getElementById("playAgain").onclick = function() { 
+		currentLevel = 3;
+		enemySpeed = 750;
+		clearInterval(bullet);
+		cutSceneDone == true;
+
+		document.getElementById("lose").style.display = "none";
+		loadLevel(); 
+		return;
+	}; 
+
+	return;
+} //lose
+
 
 //move up a level
 function levelUp(nextClass) {
 	if (nextClass == "flag" && riderOn) {
+		stun = false; 
+		enemySpeed = enemySpeed - 60;
+		if (currentLevel!= 7) {
 		document.getElementById("levelup").style.display = "block";
+		}
+
 		clearTimeout(currentAnimation);
+		clearInterval(bullet);
 		setTimeout(function () {
 			document.getElementById("levelup").style.display = "none";
-			currentLevel++;
+			pause == false;
+			if (currentLevel < 7) {
+				currentLevel++;
+			} else {
+				win();
+				return; 
+			}
 			loadLevel();
 		}, 1000);
-
 	} //if
 
 } //levelUp
 
+function win() {
+	document.getElementById("win").style.display = "block";
+
+	document.getElementById("again").onclick = function() { 
+		currentLevel = 3;
+		enemySpeed = 750;
+		clearInterval(bullet); 
+		document.getElementById("win").style.display = "none";
+		loadLevel(); 
+		return;
+	}; 
+
+} //win
+
+var animateBoxes;
 
 
 //load level 0 - maxlevel
 function loadLevel() {
+
+	pause = false;
+	stun = false;
+	lost = false; 
+
+	clearTimeout(currentAnimation); 
+	clearInterval(bullet); 
+	setTimeout (function() {
+		cutSceneDone = true;
+
+	}, 20000);
+
 	let levelMap = levels[currentLevel]; 
-	let animateBoxes;
+
 	riderOn = false; 
 
 	// load board
@@ -235,6 +752,11 @@ function loadLevel() {
 } //loadLevel
 
 
+//values storing facts about the enemy horse for the stop/resume controls
+var directionEnemy;
+var indexEnemy; 
+var locationEnemy; 
+
 
 // animate enemy left to right
 // boxes - array of grid boxes that includes animation
@@ -245,12 +767,34 @@ function animateEnemy (boxes, index, direction) {
 	//exit function if no animation
 	if (boxes.length <= 0) {return; }
 
+	if (stun == true) {
+		if (direction == "right") {
+			boxes[index].className = "enemyrightstun";
+			directionEnemy = "right"; 
+			return;
+	} else {
+		boxes[index].className = "enemyleftstun";
+		directionEnemy = "left";
+		return;
+		} //if
+	} //if
+
 	//update images
 	if (direction == "right") {
-		boxes[index].classList.add("enemyright");
+		if(boxes[index].className.includes('horse')) {
+			lose();
+		} //if
+		boxes[index].className = "enemyright";
+		directionEnemy = "right"; 
 	} else {
-		boxes[index].classList.add("enemyleft");
-	}
+		if(boxes[index].className.includes('horse')) {
+			lose();
+		} //if
+		boxes[index].className = "enemyleft";
+		directionEnemy = "left";
+	} //if
+
+	
 
 	// remove images from other boxes
 	for (i = 0; i < boxes.length; i++) {
@@ -266,43 +810,82 @@ function animateEnemy (boxes, index, direction) {
 		if (index == boxes.length - 1) {
 			index--;
 			direction = "left"; 
+			indexEnemy = index;
 		} else {
 			index++;
+			indexEnemy = index;
 		}//else
 
 	// moving left
 	} else {
 		//turn around if hit left side
 		if (index == 0) {
-			index ++;
+			index++;
 			direction = "right";
+			indexEnemy = index; 
 		} else {
 			index--;
+			indexEnemy = index;
 		}//else
 
 	} //if
-
+	if (pause == false) {
 	currentAnimation = setTimeout(function() {
 		animateEnemy(boxes, index, direction);
-	}, 750); 
 
+		console.log(pause); 
+		for (var i = 0; i < gridBoxes.length; i++) {
+			if (gridBoxes[i].className == 'enemyleft' ||gridBoxes[i].className == 'enemyright' ) {
+				locationEnemy = i; 
+				break; 
+			} //if
+		} //for
+
+	}, enemySpeed); 
+} 
+	
 } //animateEnemy
 
 
 
+function toggleSettingsPage() {
+	document.getElementById("settingsPage").style.display = 'block'; 
+	close(); 
+
+		document.getElementById("resume").onclick = function() { 
+		resumeGame(); 
+		pause = false; 
+		document.getElementById("settingsPage").style.display = 'none';
+		pause = false; 
+		return;
+	};
+
+	document.getElementById("pause").onclick = function() { 
+		pauseGame(); 
+		document.getElementById("settingsPage").style.display = 'none'; 
+		return;
+	};
+	return;
+}//toggleSettingsPage
 
 
+function pauseGame() {
+	pause = true;
+	return; 
+}pauseGame
 
 
+function close() {
+	document.getElementById("x").onclick = function() {
+		document.getElementById("settingsPage").style.display = 'none'; 
+	}; 
+} //close
 
 
-
-
-
-
-
-
-
+function resumeGame() {
+	pause = false;
+	animateEnemy(animateBoxes, indexEnemy, directionEnemy);
+} //resumeGame
 
 
 
