@@ -173,6 +173,10 @@ function shoot(boxes, direction, start) {
  					return;
  				}//if	
 
+ 				if (nextC == 'rider') {
+ 					lose(); 
+ 				}
+
  				if (noPassObstacles.includes(nextC) || nextC == 'fencetop' || nextC == 'fenceside'|| nextC == 'water' || nextC=="rider" || nextC=='flag' || nextC =='bridge') {
  					if (start == startOrig) { return;}
  					boxes[start].classList.remove('bulletrside2');
@@ -219,6 +223,10 @@ function shoot(boxes, direction, start) {
  					bulletMotion = false; 
  					return;
  				} //if
+
+ 				if (nextC == 'rider') {
+ 					lose(); 
+ 				}
 					if (start % widthOfBoard < widthOfBoard - 1) {
 					boxes[start+1].className = 'bulletlside2'; 
 					start++; 
@@ -304,6 +312,10 @@ function shoot(boxes, direction, start) {
  					bulletMotion = false; 
  					return;
  				} //if
+
+ 				if (nextC == 'rider') {
+ 					lose(); 
+ 				}
 					if (start + widthOfBoard < widthOfBoard * widthOfBoard) {
 					boxes[start+5].className = 'bulletdup2'; 
 					start = start+5; 
@@ -764,6 +776,11 @@ var locationEnemy;
 // direction - current direction of animation
 function animateEnemy (boxes, index, direction) {
 
+	indexEnemy = index;
+	directionEnemy = direction; 
+
+	if (pause == true) {return;} 
+
 	//exit function if no animation
 	if (boxes.length <= 0) {return; }
 
@@ -779,19 +796,16 @@ function animateEnemy (boxes, index, direction) {
 		} //if
 	} //if
 
+	if(boxes[index].className.includes('horse')) {
+			lose();
+		} //if
+
 	//update images
 	if (direction == "right") {
-		if(boxes[index].className.includes('horse')) {
-			lose();
-		} //if
 		boxes[index].className = "enemyright";
-		directionEnemy = "right"; 
 	} else {
-		if(boxes[index].className.includes('horse')) {
-			lose();
-		} //if
+		
 		boxes[index].className = "enemyleft";
-		directionEnemy = "left";
 	} //if
 
 	
@@ -810,10 +824,8 @@ function animateEnemy (boxes, index, direction) {
 		if (index == boxes.length - 1) {
 			index--;
 			direction = "left"; 
-			indexEnemy = index;
 		} else {
 			index++;
-			indexEnemy = index;
 		}//else
 
 	// moving left
@@ -822,14 +834,13 @@ function animateEnemy (boxes, index, direction) {
 		if (index == 0) {
 			index++;
 			direction = "right";
-			indexEnemy = index; 
+		
 		} else {
 			index--;
-			indexEnemy = index;
 		}//else
 
 	} //if
-	if (pause == false) {
+
 	currentAnimation = setTimeout(function() {
 		animateEnemy(boxes, index, direction);
 
@@ -842,7 +853,7 @@ function animateEnemy (boxes, index, direction) {
 		} //for
 
 	}, enemySpeed); 
-} 
+ 
 	
 } //animateEnemy
 
@@ -852,16 +863,21 @@ function toggleSettingsPage() {
 	document.getElementById("settingsPage").style.display = 'block'; 
 	close(); 
 
-		document.getElementById("resume").onclick = function() { 
-		resumeGame(); 
-		pause = false; 
-		document.getElementById("settingsPage").style.display = 'none';
-		pause = false; 
-		return;
+	
+			document.getElementById("resume").onclick = function() { 
+			if (resume == false) {
+			resumeGame(); 
+			}
+			resume = true;
+			pause = false; 
+			document.getElementById("settingsPage").style.display = 'none';
+			pause = false; 
+			return;
 	};
 
 	document.getElementById("pause").onclick = function() { 
 		pauseGame(); 
+		resume = false;
 		document.getElementById("settingsPage").style.display = 'none'; 
 		return;
 	};
@@ -871,8 +887,9 @@ function toggleSettingsPage() {
 
 function pauseGame() {
 	pause = true;
+	resume = false;
 	return; 
-}pauseGame
+}//pauseGame
 
 
 function close() {
@@ -881,9 +898,16 @@ function close() {
 	}; 
 } //close
 
-
+var resume = false;
 function resumeGame() {
+	resume = true;
 	pause = false;
+	//if (directionEnemy == 'right' && indexEnemy!= indexOrig) {
+	//	indexEnemy = indexEnemy +1;
+	//} if (directionEnemy == 'left' && indexEnemy!= indexOrig) {
+	////	indexEnemy = indexEnemy - 1;
+	//}
+
 	animateEnemy(animateBoxes, indexEnemy, directionEnemy);
 } //resumeGame
 

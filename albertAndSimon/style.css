@@ -238,7 +238,7 @@ body {
 	position: relative;
 	border-radius: 5px; 
 	color: red;
-	height: 100px;
+	height: 110px;
 	width: 200px;
 	top: 250px;
 	font-size: 40px;
@@ -285,7 +285,7 @@ body {
 #x {
 	position: absolute;
 	top: 570px;
-	left: 66.4vw; 
+	left: 63.7vw; 
 	z-index: 3; 
 	background-color: grey;
 }
@@ -318,7 +318,7 @@ body {
 	position: relative;
 	border-radius: 5px; 
 	color: green;
-	height: 75px;
+	height: 85px;
 	margin-right: auto;
 	margin-left: auto;
 	font-size: 34px;
@@ -333,7 +333,7 @@ body {
 	border-radius: 5px; 
 	color: red;
 	height: 66px;
-	width: 170px;
+	width: 155px;
 	top: 200px;
 	font-size: 37px;
 	font-weight: 700; 
@@ -366,7 +366,7 @@ body {
 	border-radius: 5px; 
 	color: green;
 	height: 65px;
-	width: 170px;
+	width: 195px;
 	top: 200px;
 	font-size: 37px;
 	font-weight: 700; 
@@ -383,7 +383,7 @@ body {
 	position: relative;
 	border-radius: 5px; 
 	color: green;
-	height: 100px;
+	height: 120px;
 	width: 200px;
 	top: 250px;
 	font-size: 40px;
